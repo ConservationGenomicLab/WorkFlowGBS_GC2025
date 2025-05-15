@@ -22,7 +22,7 @@ fi
 
 myPATH=`pwd`
 
-# mv *.fastq $myPATH/1.RawData
+# mv *.fastq.gz $myPATH/1.RawData
 # mv gbstrim.pl $myPATH/1.RawData
 # mv popmap 3.Call_Stacks
 ###############################################################################################################################
