@@ -24,7 +24,7 @@ myPATH=`pwd`
 
 # mv *.fastq.gz $myPATH/1.RawData
 # mv gbstrim.pl $myPATH/1.RawData
-# mv popmap 3.Call_Stacks
+# mv popmap $myPATH/3.Call_Stacks
 ###############################################################################################################################
 # Control de Calidad
 ################################################################################################################################
@@ -58,20 +58,25 @@ myPATH=`pwd`
 
 # mv popmap $myPATH/3.Call_Stacks
 # cd $myPATH/3.Call_Stacks
-# denovo_map.pl --samples $myPATH/2.gbstrim/ --popmap popmap --out-path ./ -M 3 -n 3 
+# denovo_map.pl --samples $myPATH/2.gbstrim/ --popmap popmap --out-path ./ -M 1 -n 1 
 
+# cd $myPATH/3.Call_Stacks
+# mkdir M2
+# denovo_map.pl --samples $myPATH/2.gbstrim/ --popmap popmap --out-path M2/ -M 2 -n 1
 
 # Comparar las corridas de optimizacion: 
-#mv stacks-dist-extract $myPATH/3.Call_Stacks
-#cd $myPATH/3.Call_Stacks 
-#stacks-dist-extract denovo_map.log cov_per_sample > Descriptores.txt
+# mv stacks-dist-extract $myPATH/3.Call_Stacks
+# cd $myPATH/3.Call_Stacks 
+# stacks-dist-extract denovo_map.log cov_per_sample > Descriptores.txt
 
+#cd $myPATH/3.Call_Stacks 
+#stacks-dist-extract M2/denovo_map.log cov_per_sample > DescriptoresM2.txt
 ################################################################################################################################
 # STACKS::populations
 # Run to generate population-level summary statistics and export data in a variety of formats
 ################################################################################################################################
 # cd $myPATH/4.Populations
-# populations -P $myPATH/3.Call_Stacks -O $myPATH/4.Populations -M $myPATH/3.Call_Stacks/popmap --write-random-snp --vcf 
+# populations -P $myPATH/3.Call_Stacks -O $myPATH/4.Populations -M $myPATH/3.Call_Stacks/popmap --write-random-snp -r 0.7 --vcf 
 
 
 
@@ -80,7 +85,7 @@ myPATH=`pwd`
 # Filtrar SNP's 
 ################################################################################################################################
 
-# cd $myPATH/5.VCFtools
-# vcftools --vcf $myPATH/4.Populations/populations.snps.vcf --maf 0.05 --min-alleles  2 --max-alleles 2 --hwe 0.00001 --max-missing 0.7 --recode
+cd $myPATH/5.VCFtools
+vcftools --vcf $myPATH/4.Populations/populations.snps.vcf --maf 0.05 --min-alleles 2 --max-alleles 2 --hwe 0.00001 --max-missing 0.5 --recode
 
 
