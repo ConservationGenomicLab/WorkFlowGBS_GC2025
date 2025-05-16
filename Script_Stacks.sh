@@ -29,17 +29,19 @@ myPATH=`pwd`
 # Control de Calidad
 ################################################################################################################################
 # cd $myPATH/1.RawData
-# fastqc Sub_1Ca4.fastq
+# fastqc Sub_1Ca4.fastq.gz
 
 
 ################################################################################################################################
 # Recorte de adptadores y longitud de reads
 ################################################################################################################################
 # cd $myPATH/1.RawData
-# ls *.fastq > Lista
+# ls *.fastq.gz > Lista
 # for i in $(cat Lista); do name=`echo $i | cut -d "_" -f 2|cut -d "." -f 1` ; perl gbstrim.pl --enzyme1 psti --enzyme2 mspi --read R1 --minlength 142 --fastqfile $i --outputfile $myPATH/2.gbstrim/$name.fastq ;done
 
-# fastqc *.fastq
+# cd ../2.gbstrim
+# mkdir HQReads_FastQC
+# fastqc *.fastq -o HQReads_FastQC 
 
 
 ################################################################################################################################ 
@@ -55,12 +57,14 @@ myPATH=`pwd`
 
 
 # mv popmap $myPATH/3.Call_Stacks
-# mv stacks-dist-extract  $myPATH/3.Call_Stacks
 # cd $myPATH/3.Call_Stacks
 # denovo_map.pl --samples $myPATH/2.gbstrim/ --popmap popmap --out-path ./ -M 3 -n 3 
 
+
 # Comparar las corridas de optimizacion: 
-# stacks-dist-extract denovo_map.log cov_per_sample > Descriptores.txt
+#mv stacks-dist-extract $myPATH/3.Call_Stacks
+#cd $myPATH/3.Call_Stacks 
+#stacks-dist-extract denovo_map.log cov_per_sample > Descriptores.txt
 
 ################################################################################################################################
 # STACKS::populations
