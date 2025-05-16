@@ -51,27 +51,43 @@ myPATH=`pwd`
 ################################################################################################################################
 # ¿Cómo crear un popmap?
 # cd $myPATH/2.gbstrim
-# Crear un popmap:
+# Crear un popmap
 # ls *.fastq | sed 's/.fastq//g' > popmap
 # nano popmap 
 
 
 # mv popmap $myPATH/3.Call_Stacks
 # cd $myPATH/3.Call_Stacks
-# denovo_map.pl --samples $myPATH/2.gbstrim/ --popmap popmap --out-path ./ -M 3 -n 3 
+#mkdir M2
+# denovo_map.pl --samples $myPATH/2.gbstrim/ --popmap popmap --out-path M2/ -M 2 -n 3 
+#mkdir M3
+# denovo_map.pl --samples $myPATH/2.gbstrim/ --popmap popmap --out-path M3 -M 3 -n 3 
+#mkdir M4
+#denovo_map.pl --samples $myPATH/2.gbstrim/ --popmap popmap --out-path M3 -M 4 -n 3
+
+# Comparar las corridas de optimizacion:
+# NOTA: Losarchivos Descriptores de cada prueba, seran analizados en R para comparar y  decidir la mejor corrida 
+# mv stacks-dist-extract $myPATH/3.Call_Stacks
+# cd $myPATH/3.Call_Stacks 
+# stacks-dist-extract M2denovo_map.log cov_per_sample >  M2/DescriptoresM2.txt
+# stacks-dist-extract M3/denovo_map.log cov_per_sample > M3/DescriptoresM3.txt
+# stacks-dist-extract M4/denovo_map.log cov_per_sample > M4DescriptoresM4.txt
+
+#####################################################################################################################
+# Crear un link simbolico de todos los archivos Descriptores a una nueva carpeta para poder descargarlos todos juntos
+# cd $myPATH/3.Call_Stacks
+# mkdir DescripFiles
+# ln -s M*/Descriptores*.txt DescripFiles
+#####################################################################################################################
 
 
-# Comparar las corridas de optimizacion: 
-#mv stacks-dist-extract $myPATH/3.Call_Stacks
-#cd $myPATH/3.Call_Stacks 
-#stacks-dist-extract denovo_map.log cov_per_sample > Descriptores.txt
 
 ################################################################################################################################
 # STACKS::populations
 # Run to generate population-level summary statistics and export data in a variety of formats
 ################################################################################################################################
-# cd $myPATH/4.Populations
-# populations -P $myPATH/3.Call_Stacks -O $myPATH/4.Populations -M $myPATH/3.Call_Stacks/popmap --write-random-snp --vcf 
+ cd $myPATH/4.Populations
+ populations -P $myPATH/3.Call_Stacks -O $myPATH/4.Populations -M $myPATH/3.Call_Stacks/popmap --write-random-snp --vcf 
 
 
 
@@ -80,7 +96,7 @@ myPATH=`pwd`
 # Filtrar SNP's 
 ################################################################################################################################
 
-# cd $myPATH/5.VCFtools
-# vcftools --vcf $myPATH/4.Populations/populations.snps.vcf --maf 0.05 --min-alleles  2 --max-alleles 2 --hwe 0.00001 --max-missing 0.7 --recode
+ cd $myPATH/5.VCFtools
+ vcftools --vcf $myPATH/4.Populations/populations.snps.vcf --maf 0.05 --min-alleles  2 --max-alleles 2 --hwe 0.00001 --max-missing 0.7 --recode
 
 
