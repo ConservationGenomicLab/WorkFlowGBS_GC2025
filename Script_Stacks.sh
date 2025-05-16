@@ -97,6 +97,6 @@ myPATH=`pwd`
 ################################################################################################################################
 
  cd $myPATH/5.VCFtools
- vcftools --vcf $myPATH/4.Populations/populations.snps.vcf --maf 0.05 --min-alleles  2 --max-alleles 2 --hwe 0.00001 --max-missing 0.7 --recode
+ vcftools --vcf $myPATH/4.Populations/populations.snps.vcf --maf 0.05 --min-alleles 2 --max-alleles 2 --hwe 0.00001 --max-missing 0.7 --recode
 
 
